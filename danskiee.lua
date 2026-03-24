@@ -1,163 +1,229 @@
---// PREMIUM TASKBAR GUI
-
+--// PREMIUM EXECUTOR STYLE GUI
 local TweenService = game:GetService("TweenService")
+local UIS = game:GetService("UserInputService")
 
--- GUI
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.CoreGui
-ScreenGui.Name = "PremiumTaskbar"
+ScreenGui.Name = "PremiumGui"
 
--- MAIN FRAME
-local Main = Instance.new("Frame")
-Main.Parent = ScreenGui
-Main.Size = UDim2.new(0,420,0,220)
-Main.Position = UDim2.new(0.5,-210,0.5,-110)
-Main.BackgroundColor3 = Color3.fromRGB(25,25,25)
+-- MAIN
+local Main = Instance.new("Frame",ScreenGui)
+Main.Size = UDim2.new(0,420,0,260)
+Main.Position = UDim2.new(0.5,-210,0.5,-130)
+Main.BackgroundColor3 = Color3.fromRGB(20,20,20)
 Main.BorderSizePixel = 0
 
-local UICorner = Instance.new("UICorner",Main)
-UICorner.CornerRadius = UDim.new(0,10)
+Instance.new("UICorner",Main).CornerRadius = UDim.new(0,12)
 
 -- TOPBAR
-local Top = Instance.new("Frame")
-Top.Parent = Main
-Top.Size = UDim2.new(1,0,0,35)
-Top.BackgroundColor3 = Color3.fromRGB(35,35,35)
+local Top = Instance.new("Frame",Main)
+Top.Size = UDim2.new(1,0,0,40)
+Top.BackgroundColor3 = Color3.fromRGB(30,30,30)
 Top.BorderSizePixel = 0
+Instance.new("UICorner",Top).CornerRadius = UDim.new(0,12)
 
-local TopCorner = Instance.new("UICorner",Top)
-TopCorner.CornerRadius = UDim.new(0,10)
-
--- TITLE
-local Title = Instance.new("TextLabel")
-Title.Parent = Top
-Title.Size = UDim2.new(1,-80,1,0)
-Title.Position = UDim2.new(0,10,0,0)
-Title.Text = "Premium Taskbar"
-Title.TextColor3 = Color3.fromRGB(255,255,255)
-Title.BackgroundTransparency = 1
+local Title = Instance.new("TextLabel",Top)
+Title.Text = "Premium Executor"
 Title.Font = Enum.Font.GothamBold
 Title.TextSize = 16
+Title.TextColor3 = Color3.new(1,1,1)
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0,12,0,0)
+Title.Size = UDim2.new(0.6,0,1,0)
 Title.TextXAlignment = Enum.TextXAlignment.Left
 
--- MINIMIZE BUTTON
-local Minimize = Instance.new("TextButton")
-Minimize.Parent = Top
+-- MINIMIZE
+local Minimize = Instance.new("TextButton",Top)
+Minimize.Text = "-"
 Minimize.Size = UDim2.new(0,30,0,25)
 Minimize.Position = UDim2.new(1,-70,0.5,-12)
-Minimize.Text = "-"
+Minimize.BackgroundColor3 = Color3.fromRGB(60,60,60)
+Minimize.TextColor3 = Color3.new(1,1,1)
 Minimize.Font = Enum.Font.GothamBold
-Minimize.TextSize = 18
-Minimize.BackgroundColor3 = Color3.fromRGB(50,50,50)
-Minimize.TextColor3 = Color3.fromRGB(255,255,255)
+Instance.new("UICorner",Minimize)
 
-local MinCorner = Instance.new("UICorner",Minimize)
-MinCorner.CornerRadius = UDim.new(0,6)
-
--- CLOSE BUTTON
-local Close = Instance.new("TextButton")
-Close.Parent = Top
+-- CLOSE
+local Close = Instance.new("TextButton",Top)
+Close.Text = "X"
 Close.Size = UDim2.new(0,30,0,25)
 Close.Position = UDim2.new(1,-35,0.5,-12)
-Close.Text = "X"
+Close.BackgroundColor3 = Color3.fromRGB(180,50,50)
+Close.TextColor3 = Color3.new(1,1,1)
 Close.Font = Enum.Font.GothamBold
-Close.TextSize = 16
-Close.BackgroundColor3 = Color3.fromRGB(170,40,40)
-Close.TextColor3 = Color3.fromRGB(255,255,255)
-
-local CloseCorner = Instance.new("UICorner",Close)
-CloseCorner.CornerRadius = UDim.new(0,6)
+Instance.new("UICorner",Close)
 
 -- CONTENT
-local Content = Instance.new("Frame")
-Content.Parent = Main
-Content.Size = UDim2.new(1,0,1,-35)
-Content.Position = UDim2.new(0,0,0,35)
+local Content = Instance.new("Frame",Main)
+Content.Size = UDim2.new(1,0,1,-40)
+Content.Position = UDim2.new(0,0,0,40)
 Content.BackgroundTransparency = 1
 
--- CONTAINER TEXT
-local Text = Instance.new("TextLabel")
-Text.Parent = Content
-Text.Size = UDim2.new(1,0,1,0)
-Text.Text = "Premium GUI Ready"
-Text.TextColor3 = Color3.fromRGB(255,255,255)
-Text.BackgroundTransparency = 1
-Text.Font = Enum.Font.GothamBold
-Text.TextSize = 18
+-- FEATURE BUTTON TEMPLATE
+local function createButton(text,posY)
+
+local btn = Instance.new("TextButton",Content)
+btn.Size = UDim2.new(0.9,0,0,40)
+btn.Position = UDim2.new(0.05,0,0,posY)
+btn.Text = text.." : OFF"
+btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+btn.TextColor3 = Color3.new(1,1,1)
+btn.Font = Enum.Font.GothamBold
+btn.TextSize = 14
+
+Instance.new("UICorner",btn)
+
+local on = false
+
+btn.MouseButton1Click:Connect(function()
+
+on = not on
+
+btn.Text = text.." : "..(on and "ON" or "OFF")
+
+TweenService:Create(btn,TweenInfo.new(0.2),{
+BackgroundColor3 = on and Color3.fromRGB(60,150,80) or Color3.fromRGB(40,40,40)
+}):Play()
+
+end)
+
+end
+
+createButton("Fly",10)
+createButton("Speed",60)
+createButton("Noclip",110)
+
+-- MINIMIZE ICON
+local Icon = Instance.new("TextButton",ScreenGui)
+Icon.Size = UDim2.new(0,50,0,50)
+Icon.Position = UDim2.new(0.05,0,0.8,0)
+Icon.Text = "⚡"
+Icon.Visible = false
+Icon.TextSize = 22
+Icon.Font = Enum.Font.GothamBold
+Icon.BackgroundColor3 = Color3.fromRGB(30,30,30)
+Icon.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner",Icon).CornerRadius = UDim.new(1,0)
 
 -- CLOSE CONFIRM
-local Confirm = Instance.new("Frame")
-Confirm.Parent = ScreenGui
-Confirm.Size = UDim2.new(0,260,0,130)
-Confirm.Position = UDim2.new(0.5,-130,0.5,-65)
+local Confirm = Instance.new("Frame",ScreenGui)
+Confirm.Size = UDim2.new(0,260,0,120)
+Confirm.Position = UDim2.new(0.5,-130,0.5,-60)
 Confirm.BackgroundColor3 = Color3.fromRGB(30,30,30)
 Confirm.Visible = false
-Confirm.BorderSizePixel = 0
+Instance.new("UICorner",Confirm)
 
-local ConfirmCorner = Instance.new("UICorner",Confirm)
-ConfirmCorner.CornerRadius = UDim.new(0,10)
+local Text = Instance.new("TextLabel",Confirm)
+Text.Text = "Yakin ingin menutup GUI?"
+Text.Size = UDim2.new(1,0,0,60)
+Text.BackgroundTransparency = 1
+Text.TextColor3 = Color3.new(1,1,1)
+Text.Font = Enum.Font.GothamBold
 
-local ConfirmText = Instance.new("TextLabel")
-ConfirmText.Parent = Confirm
-ConfirmText.Size = UDim2.new(1,0,0,60)
-ConfirmText.Text = "Apakah kamu yakin ingin menutup GUI?"
-ConfirmText.TextColor3 = Color3.fromRGB(255,255,255)
-ConfirmText.BackgroundTransparency = 1
-ConfirmText.Font = Enum.Font.GothamBold
-ConfirmText.TextSize = 16
-
--- YAKIN BUTTON
-local Yes = Instance.new("TextButton")
-Yes.Parent = Confirm
-Yes.Size = UDim2.new(0,100,0,35)
-Yes.Position = UDim2.new(0.1,0,0.65,0)
+local Yes = Instance.new("TextButton",Confirm)
 Yes.Text = "Yakin"
-Yes.Font = Enum.Font.GothamBold
-Yes.TextSize = 14
-Yes.BackgroundColor3 = Color3.fromRGB(170,40,40)
+Yes.Size = UDim2.new(0.4,0,0,35)
+Yes.Position = UDim2.new(0.05,0,0.6,0)
+Yes.BackgroundColor3 = Color3.fromRGB(180,50,50)
 Yes.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner",Yes)
 
-local YesCorner = Instance.new("UICorner",Yes)
-YesCorner.CornerRadius = UDim.new(0,6)
-
--- BATAL BUTTON
-local Cancel = Instance.new("TextButton")
-Cancel.Parent = Confirm
-Cancel.Size = UDim2.new(0,100,0,35)
-Cancel.Position = UDim2.new(0.55,0,0.65,0)
+local Cancel = Instance.new("TextButton",Confirm)
 Cancel.Text = "Batal"
-Cancel.Font = Enum.Font.GothamBold
-Cancel.TextSize = 14
-Cancel.BackgroundColor3 = Color3.fromRGB(50,50,50)
+Cancel.Size = UDim2.new(0.4,0,0,35)
+Cancel.Position = UDim2.new(0.55,0,0.6,0)
+Cancel.BackgroundColor3 = Color3.fromRGB(60,60,60)
 Cancel.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner",Cancel)
 
-local CancelCorner = Instance.new("UICorner",Cancel)
-CancelCorner.CornerRadius = UDim.new(0,6)
+-- WELCOME ANIMATION
+local Welcome = Instance.new("TextLabel",ScreenGui)
+Welcome.Size = UDim2.new(0,400,0,50)
+Welcome.Position = UDim2.new(0.5,-200,0.2,0)
+Welcome.Text = "Welcome, Loading Premium GUI..."
+Welcome.Font = Enum.Font.GothamBold
+Welcome.TextSize = 22
+Welcome.BackgroundTransparency = 1
+Welcome.TextColor3 = Color3.new(1,1,1)
 
--- MINIMIZE FUNCTION
-local minimized = false
+TweenService:Create(Welcome,TweenInfo.new(1.2),{
+TextTransparency = 1
+}):Play()
 
+task.delay(1.3,function()
+Welcome:Destroy()
+end)
+
+-- MINIMIZE
 Minimize.MouseButton1Click:Connect(function()
-	minimized = not minimized
-	
-	if minimized then
-		TweenService:Create(Main,TweenInfo.new(0.3),{Size = UDim2.new(0,420,0,35)}):Play()
-	else
-		TweenService:Create(Main,TweenInfo.new(0.3),{Size = UDim2.new(0,420,0,220)}):Play()
-	end
+
+TweenService:Create(Main,TweenInfo.new(0.35),{
+Size = UDim2.new(0,0,0,0),
+Position = Icon.Position
+}):Play()
+
+task.wait(0.35)
+Main.Visible = false
+Icon.Visible = true
+
 end)
 
--- CLOSE CLICK
+-- OPEN FROM ICON
+Icon.MouseButton1Click:Connect(function()
+
+Main.Visible = true
+
+TweenService:Create(Main,TweenInfo.new(0.35),{
+Size = UDim2.new(0,420,0,260),
+Position = UDim2.new(0.5,-210,0.5,-130)
+}):Play()
+
+Icon.Visible = false
+
+end)
+
+-- CLOSE
 Close.MouseButton1Click:Connect(function()
-	Confirm.Visible = true
+Confirm.Visible = true
 end)
 
--- CANCEL
 Cancel.MouseButton1Click:Connect(function()
-	Confirm.Visible = false
+Confirm.Visible = false
 end)
 
--- YES CLOSE
 Yes.MouseButton1Click:Connect(function()
-	ScreenGui:Destroy()
+ScreenGui:Destroy()
+end)
+
+-- DRAG
+local dragging = false
+local dragStart
+local startPos
+
+Top.InputBegan:Connect(function(input)
+if input.UserInputType == Enum.UserInputType.MouseButton1 then
+dragging = true
+dragStart = input.Position
+startPos = Main.Position
+end
+end)
+
+UIS.InputChanged:Connect(function(input)
+if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+
+local delta = input.Position - dragStart
+
+Main.Position = UDim2.new(
+startPos.X.Scale,
+startPos.X.Offset + delta.X,
+startPos.Y.Scale,
+startPos.Y.Offset + delta.Y
+)
+
+end
+end)
+
+UIS.InputEnded:Connect(function(input)
+if input.UserInputType == Enum.UserInputType.MouseButton1 then
+dragging = false
+end
 end)
