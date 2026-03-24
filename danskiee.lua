@@ -1,117 +1,163 @@
--- =========================
--- DANSKIEE HUB FULL LOADER
--- =========================
+--// PREMIUM TASKBAR GUI
 
 local TweenService = game:GetService("TweenService")
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
 
-local gui = Instance.new("ScreenGui")
-gui.Name = "DanskieeLoader"
-gui.Parent = player:WaitForChild("PlayerGui")
-gui.ResetOnSpawn = false
+-- GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.CoreGui
+ScreenGui.Name = "PremiumTaskbar"
 
 -- MAIN FRAME
-local main = Instance.new("Frame")
-main.Parent = gui
-main.Size = UDim2.new(0,380,0,130)
-main.Position = UDim2.new(0.5,-190,0.5,-65)
-main.BackgroundColor3 = Color3.fromRGB(18,18,18)
+local Main = Instance.new("Frame")
+Main.Parent = ScreenGui
+Main.Size = UDim2.new(0,420,0,220)
+Main.Position = UDim2.new(0.5,-210,0.5,-110)
+Main.BackgroundColor3 = Color3.fromRGB(25,25,25)
+Main.BorderSizePixel = 0
 
-Instance.new("UICorner",main).CornerRadius = UDim.new(0,12)
+local UICorner = Instance.new("UICorner",Main)
+UICorner.CornerRadius = UDim.new(0,10)
+
+-- TOPBAR
+local Top = Instance.new("Frame")
+Top.Parent = Main
+Top.Size = UDim2.new(1,0,0,35)
+Top.BackgroundColor3 = Color3.fromRGB(35,35,35)
+Top.BorderSizePixel = 0
+
+local TopCorner = Instance.new("UICorner",Top)
+TopCorner.CornerRadius = UDim.new(0,10)
 
 -- TITLE
-local title = Instance.new("TextLabel")
-title.Parent = main
-title.Size = UDim2.new(1,0,0,45)
-title.BackgroundTransparency = 1
-title.Text = "DANSKIEE HUB"
-title.Font = Enum.Font.GothamBlack
-title.TextSize = 28
-title.TextColor3 = Color3.fromRGB(255,255,255)
+local Title = Instance.new("TextLabel")
+Title.Parent = Top
+Title.Size = UDim2.new(1,-80,1,0)
+Title.Position = UDim2.new(0,10,0,0)
+Title.Text = "Premium Taskbar"
+Title.TextColor3 = Color3.fromRGB(255,255,255)
+Title.BackgroundTransparency = 1
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 16
+Title.TextXAlignment = Enum.TextXAlignment.Left
 
--- EXECUTING TEXT
-local text = Instance.new("TextLabel")
-text.Parent = main
-text.Position = UDim2.new(0,0,0,45)
-text.Size = UDim2.new(1,0,0,25)
-text.BackgroundTransparency = 1
-text.Text = "Executing..."
-text.Font = Enum.Font.GothamBold
-text.TextSize = 16
-text.TextColor3 = Color3.fromRGB(200,200,200)
+-- MINIMIZE BUTTON
+local Minimize = Instance.new("TextButton")
+Minimize.Parent = Top
+Minimize.Size = UDim2.new(0,30,0,25)
+Minimize.Position = UDim2.new(1,-70,0.5,-12)
+Minimize.Text = "-"
+Minimize.Font = Enum.Font.GothamBold
+Minimize.TextSize = 18
+Minimize.BackgroundColor3 = Color3.fromRGB(50,50,50)
+Minimize.TextColor3 = Color3.fromRGB(255,255,255)
 
--- BAR BACKGROUND
-local barBG = Instance.new("Frame")
-barBG.Parent = main
-barBG.Position = UDim2.new(0.07,0,0.72,0)
-barBG.Size = UDim2.new(0.86,0,0,14)
-barBG.BackgroundColor3 = Color3.fromRGB(40,40,40)
+local MinCorner = Instance.new("UICorner",Minimize)
+MinCorner.CornerRadius = UDim.new(0,6)
 
-Instance.new("UICorner",barBG).CornerRadius = UDim.new(0,7)
+-- CLOSE BUTTON
+local Close = Instance.new("TextButton")
+Close.Parent = Top
+Close.Size = UDim2.new(0,30,0,25)
+Close.Position = UDim2.new(1,-35,0.5,-12)
+Close.Text = "X"
+Close.Font = Enum.Font.GothamBold
+Close.TextSize = 16
+Close.BackgroundColor3 = Color3.fromRGB(170,40,40)
+Close.TextColor3 = Color3.fromRGB(255,255,255)
 
--- BAR
-local bar = Instance.new("Frame")
-bar.Parent = barBG
-bar.Size = UDim2.new(0,0,1,0)
-bar.BackgroundColor3 = Color3.fromRGB(0,170,255)
+local CloseCorner = Instance.new("UICorner",Close)
+CloseCorner.CornerRadius = UDim.new(0,6)
 
-Instance.new("UICorner",bar).CornerRadius = UDim.new(0,7)
+-- CONTENT
+local Content = Instance.new("Frame")
+Content.Parent = Main
+Content.Size = UDim2.new(1,0,1,-35)
+Content.Position = UDim2.new(0,0,0,35)
+Content.BackgroundTransparency = 1
 
--- LOADING BAR ANIMATION
-local tween = TweenService:Create(
-	bar,
-	TweenInfo.new(3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-	{Size = UDim2.new(1,0,1,0)}
-)
+-- CONTAINER TEXT
+local Text = Instance.new("TextLabel")
+Text.Parent = Content
+Text.Size = UDim2.new(1,0,1,0)
+Text.Text = "Premium GUI Ready"
+Text.TextColor3 = Color3.fromRGB(255,255,255)
+Text.BackgroundTransparency = 1
+Text.Font = Enum.Font.GothamBold
+Text.TextSize = 18
 
-tween:Play()
+-- CLOSE CONFIRM
+local Confirm = Instance.new("Frame")
+Confirm.Parent = ScreenGui
+Confirm.Size = UDim2.new(0,260,0,130)
+Confirm.Position = UDim2.new(0.5,-130,0.5,-65)
+Confirm.BackgroundColor3 = Color3.fromRGB(30,30,30)
+Confirm.Visible = false
+Confirm.BorderSizePixel = 0
 
--- EXECUTING TEXT ANIMATION
-task.spawn(function()
-	while tween.PlaybackState ~= Enum.PlaybackState.Completed do
-		text.Text = "Executing."
-		task.wait(0.35)
+local ConfirmCorner = Instance.new("UICorner",Confirm)
+ConfirmCorner.CornerRadius = UDim.new(0,10)
 
-		text.Text = "Executing.."
-		task.wait(0.35)
+local ConfirmText = Instance.new("TextLabel")
+ConfirmText.Parent = Confirm
+ConfirmText.Size = UDim2.new(1,0,0,60)
+ConfirmText.Text = "Apakah kamu yakin ingin menutup GUI?"
+ConfirmText.TextColor3 = Color3.fromRGB(255,255,255)
+ConfirmText.BackgroundTransparency = 1
+ConfirmText.Font = Enum.Font.GothamBold
+ConfirmText.TextSize = 16
 
-		text.Text = "Executing..."
-		task.wait(0.35)
+-- YAKIN BUTTON
+local Yes = Instance.new("TextButton")
+Yes.Parent = Confirm
+Yes.Size = UDim2.new(0,100,0,35)
+Yes.Position = UDim2.new(0.1,0,0.65,0)
+Yes.Text = "Yakin"
+Yes.Font = Enum.Font.GothamBold
+Yes.TextSize = 14
+Yes.BackgroundColor3 = Color3.fromRGB(170,40,40)
+Yes.TextColor3 = Color3.new(1,1,1)
+
+local YesCorner = Instance.new("UICorner",Yes)
+YesCorner.CornerRadius = UDim.new(0,6)
+
+-- BATAL BUTTON
+local Cancel = Instance.new("TextButton")
+Cancel.Parent = Confirm
+Cancel.Size = UDim2.new(0,100,0,35)
+Cancel.Position = UDim2.new(0.55,0,0.65,0)
+Cancel.Text = "Batal"
+Cancel.Font = Enum.Font.GothamBold
+Cancel.TextSize = 14
+Cancel.BackgroundColor3 = Color3.fromRGB(50,50,50)
+Cancel.TextColor3 = Color3.new(1,1,1)
+
+local CancelCorner = Instance.new("UICorner",Cancel)
+CancelCorner.CornerRadius = UDim.new(0,6)
+
+-- MINIMIZE FUNCTION
+local minimized = false
+
+Minimize.MouseButton1Click:Connect(function()
+	minimized = not minimized
+	
+	if minimized then
+		TweenService:Create(Main,TweenInfo.new(0.3),{Size = UDim2.new(0,420,0,35)}):Play()
+	else
+		TweenService:Create(Main,TweenInfo.new(0.3),{Size = UDim2.new(0,420,0,220)}):Play()
 	end
 end)
 
--- TITLE FLOAT ANIMATION
-local floatTween = TweenService:Create(
-	title,
-	TweenInfo.new(1.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true),
-	{Position = UDim2.new(0,0,0,5)}
-)
+-- CLOSE CLICK
+Close.MouseButton1Click:Connect(function()
+	Confirm.Visible = true
+end)
 
-floatTween:Play()
+-- CANCEL
+Cancel.MouseButton1Click:Connect(function()
+	Confirm.Visible = false
+end)
 
--- AFTER LOADING
-tween.Completed:Connect(function()
-
-	task.wait(0.6)
-
-	local closeTween = TweenService:Create(
-		main,
-		TweenInfo.new(0.4, Enum.EasingStyle.Quad),
-		{Size = UDim2.new(0,0,0,0)}
-	)
-
-	closeTween:Play()
-
-	closeTween.Completed:Connect(function()
-		gui:Destroy()
-
-		-- =========================
-		-- EXECUTE SCRIPT DARI GITHUB
-		-- =========================
-
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/danzyavailable/ggtzy/main/danskiee.lua"))()
-
-	end)
-
+-- YES CLOSE
+Yes.MouseButton1Click:Connect(function()
+	ScreenGui:Destroy()
 end)
