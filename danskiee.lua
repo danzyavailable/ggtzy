@@ -1,176 +1,117 @@
 -- =========================
--- PREMIUM HUB GUI
+-- DANSKIEE HUB FULL LOADER
 -- =========================
 
+local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = player.PlayerGui
-ScreenGui.ResetOnSpawn = false
+local gui = Instance.new("ScreenGui")
+gui.Name = "DanskieeLoader"
+gui.Parent = player:WaitForChild("PlayerGui")
+gui.ResetOnSpawn = false
 
--- MAIN
-local Main = Instance.new("Frame")
-Main.Parent = ScreenGui
-Main.Size = UDim2.new(0,450,0,270)
-Main.Position = UDim2.new(0.5,-225,0.5,-135)
-Main.BackgroundColor3 = Color3.fromRGB(20,20,20)
-Main.Active = true
-Main.Draggable = true
+-- MAIN FRAME
+local main = Instance.new("Frame")
+main.Parent = gui
+main.Size = UDim2.new(0,380,0,130)
+main.Position = UDim2.new(0.5,-190,0.5,-65)
+main.BackgroundColor3 = Color3.fromRGB(18,18,18)
 
-Instance.new("UICorner",Main).CornerRadius = UDim.new(0,10)
-
--- TOP BAR
-local Top = Instance.new("Frame")
-Top.Parent = Main
-Top.Size = UDim2.new(1,0,0,35)
-Top.BackgroundColor3 = Color3.fromRGB(30,30,30)
-
-Instance.new("UICorner",Top).CornerRadius = UDim.new(0,10)
+Instance.new("UICorner",main).CornerRadius = UDim.new(0,12)
 
 -- TITLE
-local Title = Instance.new("TextLabel")
-Title.Parent = Top
-Title.Size = UDim2.new(1,-40,1,0)
-Title.Position = UDim2.new(0,10,0,0)
-Title.BackgroundTransparency = 1
-Title.Text = "Premium Script Hub"
-Title.Font = Enum.Font.GothamBold
-Title.TextColor3 = Color3.new(1,1,1)
-Title.TextSize = 15
-Title.TextXAlignment = Enum.TextXAlignment.Left
+local title = Instance.new("TextLabel")
+title.Parent = main
+title.Size = UDim2.new(1,0,0,45)
+title.BackgroundTransparency = 1
+title.Text = "DANSKIEE HUB"
+title.Font = Enum.Font.GothamBlack
+title.TextSize = 28
+title.TextColor3 = Color3.fromRGB(255,255,255)
 
--- MINIMIZE
-local Minimize = Instance.new("TextButton")
-Minimize.Parent = Top
-Minimize.Size = UDim2.new(0,30,0,25)
-Minimize.Position = UDim2.new(1,-35,0.5,-12)
-Minimize.BackgroundColor3 = Color3.fromRGB(50,50,50)
-Minimize.Text = "-"
-Minimize.Font = Enum.Font.GothamBold
-Minimize.TextColor3 = Color3.new(1,1,1)
+-- EXECUTING TEXT
+local text = Instance.new("TextLabel")
+text.Parent = main
+text.Position = UDim2.new(0,0,0,45)
+text.Size = UDim2.new(1,0,0,25)
+text.BackgroundTransparency = 1
+text.Text = "Executing..."
+text.Font = Enum.Font.GothamBold
+text.TextSize = 16
+text.TextColor3 = Color3.fromRGB(200,200,200)
 
-Instance.new("UICorner",Minimize).CornerRadius = UDim.new(0,6)
+-- BAR BACKGROUND
+local barBG = Instance.new("Frame")
+barBG.Parent = main
+barBG.Position = UDim2.new(0.07,0,0.72,0)
+barBG.Size = UDim2.new(0.86,0,0,14)
+barBG.BackgroundColor3 = Color3.fromRGB(40,40,40)
 
--- SIDEBAR
-local Sidebar = Instance.new("Frame")
-Sidebar.Parent = Main
-Sidebar.Position = UDim2.new(0,0,0,35)
-Sidebar.Size = UDim2.new(0,120,1,-35)
-Sidebar.BackgroundColor3 = Color3.fromRGB(28,28,28)
+Instance.new("UICorner",barBG).CornerRadius = UDim.new(0,7)
 
--- CONTENT
-local Content = Instance.new("Frame")
-Content.Parent = Main
-Content.Position = UDim2.new(0,120,0,35)
-Content.Size = UDim2.new(1,-120,1,-35)
-Content.BackgroundTransparency = 1
+-- BAR
+local bar = Instance.new("Frame")
+bar.Parent = barBG
+bar.Size = UDim2.new(0,0,1,0)
+bar.BackgroundColor3 = Color3.fromRGB(0,170,255)
 
--- TAB LAYOUT
-local TabLayout = Instance.new("UIListLayout")
-TabLayout.Parent = Sidebar
-TabLayout.Padding = UDim.new(0,5)
+Instance.new("UICorner",bar).CornerRadius = UDim.new(0,7)
 
--- PAGE SYSTEM
-local Pages = {}
+-- LOADING BAR ANIMATION
+local tween = TweenService:Create(
+	bar,
+	TweenInfo.new(3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+	{Size = UDim2.new(1,0,1,0)}
+)
 
-local function createPage(name)
+tween:Play()
 
-	local page = Instance.new("Frame")
-	page.Parent = Content
-	page.Size = UDim2.new(1,0,1,0)
-	page.BackgroundTransparency = 1
-	page.Visible = false
+-- EXECUTING TEXT ANIMATION
+task.spawn(function()
+	while tween.PlaybackState ~= Enum.PlaybackState.Completed do
+		text.Text = "Executing."
+		task.wait(0.35)
 
-	local layout = Instance.new("UIListLayout")
-	layout.Parent = page
-	layout.Padding = UDim.new(0,6)
+		text.Text = "Executing.."
+		task.wait(0.35)
 
-	Pages[name] = page
+		text.Text = "Executing..."
+		task.wait(0.35)
+	end
+end)
 
-	return page
-end
+-- TITLE FLOAT ANIMATION
+local floatTween = TweenService:Create(
+	title,
+	TweenInfo.new(1.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true),
+	{Position = UDim2.new(0,0,0,5)}
+)
 
-local function createTab(name)
+floatTween:Play()
 
-	local btn = Instance.new("TextButton")
-	btn.Parent = Sidebar
-	btn.Size = UDim2.new(1,0,0,35)
-	btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-	btn.Text = name
-	btn.Font = Enum.Font.GothamBold
-	btn.TextColor3 = Color3.new(1,1,1)
-	btn.TextSize = 14
+-- AFTER LOADING
+tween.Completed:Connect(function()
 
-	Instance.new("UICorner",btn).CornerRadius = UDim.new(0,6)
+	task.wait(0.6)
 
-	btn.MouseButton1Click:Connect(function()
+	local closeTween = TweenService:Create(
+		main,
+		TweenInfo.new(0.4, Enum.EasingStyle.Quad),
+		{Size = UDim2.new(0,0,0,0)}
+	)
 
-		for _,p in pairs(Pages) do
-			p.Visible = false
-		end
+	closeTween:Play()
 
-		Pages[name].Visible = true
+	closeTween.Completed:Connect(function()
+		gui:Destroy()
+
+		-- =========================
+		-- EXECUTE SCRIPT DARI GITHUB
+		-- =========================
+
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/danzyavailable/ggtzy/main/danskiee.lua"))()
 
 	end)
-
-end
-
-local function createButton(page,text)
-
-	local btn = Instance.new("TextButton")
-	btn.Parent = page
-	btn.Size = UDim2.new(0.9,0,0,35)
-	btn.Position = UDim2.new(0.05,0,0,0)
-	btn.BackgroundColor3 = Color3.fromRGB(45,45,45)
-	btn.Text = text
-	btn.Font = Enum.Font.GothamBold
-	btn.TextColor3 = Color3.new(1,1,1)
-	btn.TextSize = 14
-
-	Instance.new("UICorner",btn).CornerRadius = UDim.new(0,6)
-
-	return btn
-
-end
-
--- CREATE PAGES
-local PlayerPage = createPage("Player")
-local TeleportPage = createPage("Teleport")
-local ServerPage = createPage("Server")
-
--- CREATE TABS
-createTab("Player")
-createTab("Teleport")
-createTab("Server")
-
-Pages["Player"].Visible = true
-
--- EXAMPLE BUTTONS
-createButton(PlayerPage,"Fly")
-createButton(PlayerPage,"Speed Boost")
-createButton(PlayerPage,"Noclip")
-
-createButton(TeleportPage,"Teleport Player")
-
-createButton(ServerPage,"Rejoin")
-createButton(ServerPage,"Server Hop")
-
--- MINIMIZE FUNCTION
-local minimized = false
-
-Minimize.MouseButton1Click:Connect(function()
-
-	minimized = not minimized
-
-	if minimized then
-		Content.Visible = false
-		Sidebar.Visible = false
-		Main.Size = UDim2.new(0,200,0,35)
-	else
-		Content.Visible = true
-		Sidebar.Visible = true
-		Main.Size = UDim2.new(0,450,0,270)
-	end
 
 end)
